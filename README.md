@@ -1,6 +1,6 @@
 # pakistan-validators
 
-Validate, parse, and format Pakistani **CNIC** numbers and **mobile phone** numbers.
+Validate, parse, and format Pakistani **CNIC** numbers and **mobile phone** numbers in JavaScript, TypeScript, and Node.js.
 
 - Zero dependencies, ~2 KB, tree-shakeable
 - TypeScript-first with full type definitions
@@ -13,7 +13,7 @@ Validate, parse, and format Pakistani **CNIC** numbers and **mobile phone** numb
 npm install pakistan-validators
 ```
 
-## CNIC
+## Validate a CNIC number
 
 ```ts
 import { parseCNIC, isValidCNIC, formatCNIC } from "pakistan-validators";
@@ -42,7 +42,7 @@ parseCNIC("352021234567");
 // { valid: false, reason: "expected 13 digits, got 12" }
 ```
 
-## Mobile numbers
+## Validate a Pakistani mobile number
 
 ```ts
 import { parsePhone, isValidPhone, formatPhone } from "pakistan-validators";
@@ -67,6 +67,22 @@ All common input shapes normalize to the same number: `03001234567`,
 Validation covers the assigned mobile prefix ranges (0300–0349 and 0355).
 The package deliberately does **not** report a carrier: since mobile number
 portability, the prefix no longer reliably identifies the current network.
+
+## Why not just a regex?
+
+The usual CNIC regex (`^\d{5}-\d{7}-\d$`) accepts invalid region codes and
+rejects real-world input that this package handles:
+
+```ts
+isValidCNIC("۳۵۲۰۲-۱۲۳۴۵۶۷-۱"); // true  — Urdu digits, common in copied text
+isValidCNIC("3520212345671");    // true  — no dashes
+isValidCNIC("95202-1234567-1");  // false — "9" is not a NADRA region code
+isValidPhone("00923001234567");  // true  — 0092 prefix
+isValidPhone("0399-1234567");    // false — unassigned prefix a regex happily accepts
+```
+
+A regex also can't tell you *why* input failed; `parseCNIC` and `parsePhone`
+return a `reason` you can show to the user.
 
 ## API
 

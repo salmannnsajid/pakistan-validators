@@ -1,6 +1,6 @@
 {
   "name": "pakistan-validators",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Validate, parse, and format Pakistani CNIC numbers and mobile phone numbers. Zero dependencies, TypeScript-first.",
   "keywords": [
     "pakistan",
@@ -10,6 +10,8 @@
     "mobile",
     "validator",
     "validation",
+    "cnic-validator",
+    "pakistani-phone-number",
     "format",
     "pk"
   ],

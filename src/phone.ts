@@ -25,6 +25,11 @@ export type ParsedPhone =
  * Parses a Pakistani mobile number in any common form:
  * "03001234567", "0300-1234567", "+92 300 1234567", "923001234567",
  * "00923001234567" — ASCII or Urdu digits.
+ *
+ * @example
+ * parsePhone("+92 300 1234567");
+ * // { valid: true, e164: "+923001234567", local: "0300-1234567",
+ * //   international: "+92 300 1234567", prefix: "300" }
  */
 export function parsePhone(input: string): ParsedPhone {
   let s = toAsciiDigits(String(input)).replace(/[\s\-().]/g, "");
@@ -57,11 +62,27 @@ export function parsePhone(input: string): ParsedPhone {
   };
 }
 
+/**
+ * Checks whether the input is a valid Pakistani mobile number,
+ * in any common form ("03001234567", "+923001234567", ...).
+ *
+ * @example
+ * isValidPhone("0300-1234567");  // true
+ * isValidPhone("+923001234567"); // true
+ * isValidPhone("0399-1234567");  // false (unassigned prefix)
+ */
 export function isValidPhone(input: string): boolean {
   return parsePhone(input).valid;
 }
 
-/** Returns the number in the given style (default "local"), or null if invalid. */
+/**
+ * Returns the number in the given style (default "local"), or null if invalid.
+ *
+ * @example
+ * formatPhone("03001234567", "e164");          // "+923001234567"
+ * formatPhone("00923001234567");               // "0300-1234567"
+ * formatPhone("03001234567", "international"); // "+92 300 1234567"
+ */
 export function formatPhone(input: string, style: PhoneStyle = "local"): string | null {
   const parsed = parsePhone(input);
   if (!parsed.valid) return null;

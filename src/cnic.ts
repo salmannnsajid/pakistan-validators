@@ -27,6 +27,13 @@ export type ParsedCNIC =
  * Parses a CNIC in any common form: with or without dashes/spaces,
  * ASCII or Urdu digits. Province comes from the first digit and
  * gender from the parity of the last digit, per NADRA's scheme.
+ *
+ * @example
+ * parseCNIC("35202-1234567-1");
+ * // { valid: true, normalized: "3520212345671", formatted: "35202-1234567-1",
+ * //   province: "Punjab", gender: "male" }
+ * parseCNIC("352021234567");
+ * // { valid: false, reason: "expected 13 digits, got 12" }
  */
 export function parseCNIC(input: string): ParsedCNIC {
   const digits = toAsciiDigits(String(input)).replace(/[\s-]/g, "");
@@ -53,11 +60,26 @@ export function parseCNIC(input: string): ParsedCNIC {
   };
 }
 
+/**
+ * Checks whether the input is a valid 13-digit Pakistani CNIC.
+ * Accepts dashes, spaces, and Urdu/Arabic-Indic digits.
+ *
+ * @example
+ * isValidCNIC("35202-1234567-1"); // true
+ * isValidCNIC("3520212345671");   // true
+ * isValidCNIC("12345");           // false
+ */
 export function isValidCNIC(input: string): boolean {
   return parseCNIC(input).valid;
 }
 
-/** Returns the CNIC in NADRA format ("35202-1234567-1"), or null if invalid. */
+/**
+ * Returns the CNIC in NADRA format ("35202-1234567-1"), or null if invalid.
+ *
+ * @example
+ * formatCNIC("3520212345671"); // "35202-1234567-1"
+ * formatCNIC("garbage");       // null
+ */
 export function formatCNIC(input: string): string | null {
   const parsed = parseCNIC(input);
   return parsed.valid ? parsed.formatted : null;
