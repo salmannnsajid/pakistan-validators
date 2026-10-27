@@ -1,0 +1,55 @@
+{
+  "name": "pakistan-validators",
+  "version": "0.1.0",
+  "description": "Validate, parse, and format Pakistani CNIC numbers and mobile phone numbers. Zero dependencies, TypeScript-first.",
+  "keywords": [
+    "pakistan",
+    "cnic",
+    "nadra",
+    "phone",
+    "mobile",
+    "validator",
+    "validation",
+    "format",
+    "pk"
+  ],
+  "license": "MIT",
+  "author": "salman sajid",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salmannnsajid/pakistan-validators.git"
+  },
+  "homepage": "https://github.com/salmannnsajid/pakistan-validators#readme",
+  "bugs": {
+    "url": "https://github.com/salmannnsajid/pakistan-validators/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.0"
+  }
+}
